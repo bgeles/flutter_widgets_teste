@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_widgets_teste/pages/hello_listview.dart';
 import 'package:flutter_widgets_teste/pages/hello_page1.dart';
+import 'package:flutter_widgets_teste/pages/hello_page2.dart';
+import 'package:flutter_widgets_teste/pages/hello_page3.dart';
+import 'package:flutter_widgets_teste/utils/nav.dart';
+import 'package:flutter_widgets_teste/widgets/blue_button.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -33,21 +38,38 @@ class HomePage extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            _button(context, "ListView"),
-            _button(context, "Page 2"),
-            _button(context, "Page 3"),
+            BlueButton(
+                "ListView", () => _onClickNavigator(context, HelloListView())),
+            BlueButton(
+                "Page 2", () => _onClickNavigator(context, HelloPage2())),
+            BlueButton(
+                "Page 3", () => _onClickNavigator(context, HelloPage3())),
           ],
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
-            _button(context, "Snack"),
-            _button(context, "Dialog"),
-            _button(context, "Toast"),
+            BlueButton("Snack", _onClickSnack),
+            BlueButton("Dialog", _onClickDialog),
+            BlueButton("Toast", _onClickToast),
           ],
         )
       ],
     );
+  }
+
+  _onClickToast() => _onClickToast;
+
+  _onClickSnack() => _onClickSnack;
+
+  _onClickDialog() => _onClickDialog;
+
+  
+  
+  
+  void _onClickNavigator(BuildContext context, Widget page) async {
+    String s = await push(context,page);
+    print('>>>>$s');
   }
 
   _pageView() {
@@ -69,25 +91,7 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  _button(BuildContext context, String texto) {
-    return RaisedButton(
-        child: Text(
-          texto,
-          style: TextStyle(
-            color: Colors.white,
-            fontSize: 30,
-          ),
-        ),
-        color: Colors.blue,
-        onPressed: () => _onClickOK(context));
-  }
-
-  void _onClickOK(BuildContext context) {
-    Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) {
-      return HelloPage1();
-    }));
-  }
-
+  
   _img(String caminhoImagem) {
     return Image.asset(
       caminhoImagem,
