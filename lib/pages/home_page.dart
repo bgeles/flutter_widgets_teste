@@ -5,6 +5,7 @@ import 'package:flutter_widgets_teste/pages/hello_page2.dart';
 import 'package:flutter_widgets_teste/pages/hello_page3.dart';
 import 'package:flutter_widgets_teste/utils/nav.dart';
 import 'package:flutter_widgets_teste/widgets/blue_button.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class HomePage extends StatelessWidget {
   @override
@@ -26,49 +27,101 @@ class HomePage extends StatelessWidget {
         children: <Widget>[
           _text(),
           _pageView(),
-          _buttons(context),
+          _buttons(),
         ],
       ),
     );
   }
 
-  _buttons(BuildContext context) {
-    return Column(
-      children: <Widget>[
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+  _buttons() {
+    return Builder(
+      builder: (context) {
+        return Column(
           children: <Widget>[
-            BlueButton(
-                "ListView", () => _onClickNavigator(context, HelloListView())),
-            BlueButton(
-                "Page 2", () => _onClickNavigator(context, HelloPage2())),
-            BlueButton(
-                "Page 3", () => _onClickNavigator(context, HelloPage3())),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                BlueButton("ListView",
+                    () => _onClickNavigator(context, HelloListView())),
+                BlueButton(
+                    "Page 2", () => _onClickNavigator(context, HelloPage2())),
+                BlueButton(
+                    "Page 3", () => _onClickNavigator(context, HelloPage3())),
+              ],
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                BlueButton("Snack", () => _onClickSnack(context)),
+                BlueButton("Dialog", () => _onClickDialog(context)),
+                BlueButton("Toast", _onClickToast),
+              ],
+            )
           ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            BlueButton("Snack", _onClickSnack),
-            BlueButton("Dialog", _onClickDialog),
-            BlueButton("Toast", _onClickToast),
-          ],
-        )
-      ],
+        );
+      },
     );
   }
 
-  _onClickToast() => _onClickToast;
+  _onClickSnack(context) {
+    Scaffold.of(context).showSnackBar(
+      SnackBar(
+        content: Text('Olá Flutter'),
+        action: SnackBarAction(
+          label: "OK",
+          textColor: Colors.deepOrange,
+          onPressed: () {
+            print("Snack OK");
+          },
+        ),
+      ),
+    );
+  }
 
-  _onClickSnack() => _onClickSnack;
+  _onClickToast() {
+    print("TOAST!!!");
+    Fluttertoast.showToast(
+        msg: "This is Center Short Toast",
+        toastLength: Toast.LENGTH_LONG,
+        gravity: ToastGravity.CENTER,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.orange,
+        textColor: Colors.white,
+        fontSize: 16.0);
+  }
 
-  _onClickDialog() => _onClickDialog;
+  _onClickDialog(context) {
+    showDialog(
+        barrierDismissible: false,
+        context: context,
+        builder: (context) {
+          return WillPopScope(
+            onWillPop: () async => false,
+            child: AlertDialog(
+              title: Text("Flutter é muito Legal"),
+              actions: <Widget>[
+                FlatButton(
+                  child: Text("Cancelar"),
+                  onPressed: () {
+                    print("Dialog Cancelar");
+                    Navigator.pop(context);
+                  },
+                ),
+                FlatButton(
+                  child: Text("OK"),
+                  onPressed: () {
+                    Navigator.pop(context);
+                    print("Dialog OK");
+                  },
+                ),
+              ],
+            ),
+          );
+        });
+  }
 
-  
-  
-  
   void _onClickNavigator(BuildContext context, Widget page) async {
-    String s = await push(context,page);
+    String s = await push(context, page);
     print('>>>>$s');
   }
 
@@ -91,7 +144,6 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  
   _img(String caminhoImagem) {
     return Image.asset(
       caminhoImagem,
