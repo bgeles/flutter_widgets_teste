@@ -11,6 +11,12 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () => _onClickFab(),
+        child: Icon(
+          Icons.add,
+        ),
+      ),
       appBar: AppBar(
         title: Text("Hello Flutter"),
         centerTitle: true,
@@ -19,11 +25,16 @@ class HomePage extends StatelessWidget {
     );
   }
 
+  _onClickFab() {
+    print("Adicionar");
+  }
+
   _body(BuildContext context) {
     return Container(
+      padding: EdgeInsets.only(top: 20),
       color: Colors.white,
       child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: <Widget>[
           _text(),
           _pageView(),
