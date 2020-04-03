@@ -1,27 +1,53 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widgets_teste/pages/hello_listview.dart';
-import 'package:flutter_widgets_teste/pages/hello_page1.dart';
 import 'package:flutter_widgets_teste/pages/hello_page2.dart';
 import 'package:flutter_widgets_teste/pages/hello_page3.dart';
 import 'package:flutter_widgets_teste/utils/nav.dart';
 import 'package:flutter_widgets_teste/widgets/blue_button.dart';
+import 'package:flutter_widgets_teste/widgets/drawer_list.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
 class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      floatingActionButton: FloatingActionButton(
-        onPressed: () => _onClickFab(),
-        child: Icon(
-          Icons.add,
-        ),
-      ),
-      appBar: AppBar(
-        title: Text("Hello Flutter"),
-        centerTitle: true,
-      ),
-      body: _body(context),
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+          floatingActionButton: FloatingActionButton(
+            onPressed: () => _onClickFab(),
+            child: Icon(
+              Icons.add,
+            ),
+          ),
+          appBar: AppBar(
+            title: Text("Hello Flutter"),
+            centerTitle: true,
+            bottom: TabBar(
+              tabs: <Widget>[
+                Tab(
+                  text: "Tab 1",
+                ),
+                Tab(
+                  text: "Tab 2",
+                ),
+                Tab(
+                  text: "Tab 3",
+                ),
+              ],
+            ),
+          ),
+          body: TabBarView(
+            children: <Widget>[
+              _body(context),
+              Container(
+                color: Colors.green,
+              ),
+              Container(
+                color: Colors.yellow,
+              ),
+            ],
+          ),
+          drawer: DrawerList()),
     );
   }
 
