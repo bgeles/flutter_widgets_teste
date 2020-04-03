@@ -21,11 +21,14 @@ class HelloListView extends StatelessWidget {
       _img("assets/images/dog5.png")
     ];
 
-    return ListView(
-      itemExtent: 350,
-      children: imgs,
-    );
+    return ListView.builder(
+      itemCount: imgs.length,
+      itemExtent: 300,
+      itemBuilder: (BuildContext context, int index){
+        return imgs[index];
+    });
   }
+  
 
   Widget _img(String caminhoImagem) {
     return Image.asset(
